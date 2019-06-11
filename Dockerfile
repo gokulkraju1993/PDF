@@ -11,12 +11,12 @@ COPY ["HtmlToPdfConvert/HtmlToPdfConvert.csproj", "HtmlToPdfConvert/"]
 RUN dotnet restore "HtmlToPdfConvert/HtmlToPdfConvert.csproj"
 COPY . .
 WORKDIR "/src/HtmlToPdfConvert"
-RUN dotnet build "HtmlToPdfConvert.csproj" -c Release -o /app
+RUN dotnet build "HtmlToPdfConvert/HtmlToPdfConvert.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "HtmlToPdfConvert.csproj" -c Release -o /app
+RUN dotnet publish "HtmlToPdfConvert/HtmlToPdfConvert.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "HtmlToPdfConvert.dll"]
+ENTRYPOINT ["dotnet", "HtmlToPdfConvert/HtmlToPdfConvert.dll"]
